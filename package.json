@@ -1,20 +1,65 @@
 {
   "name": "electron-app-auto-update",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dev": "NODE_ENV=development electron .",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux",
+    "publish": "electron-builder --publish=always"
   },
-  "keywords": [],
+  "keywords": ["electron", "auto-update"],
   "author": "Mahmoud El-Tohamy",
   "build": {
     "appId": "net.qeema.autoupdate",
+    "productName": "Electron Auto Update",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "node_modules/**/*"
+    ],
     "publish": [
       {
-        "provider": "github"
+        "provider": "github",
+        "owner": "MahmoudEltohamy1",
+        "repo": "electron-auto-update"
       }
-    ]
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "license": "MIT",
   "description": "Electron Auto-Update POC",
